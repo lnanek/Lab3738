@@ -4,18 +4,15 @@
     >
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="PAYPAL" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         >
-
         <activity
             android:name=".PostUpdateActivity"
             android:label="@string/app_name"
-            android:permission="PAYPAL"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
