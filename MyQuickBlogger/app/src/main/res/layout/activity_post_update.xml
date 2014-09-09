@@ -11,13 +11,14 @@
     <EditText
         android:id="@+id/statusInput"
         android:hint="Enter your status update here!"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 
     <Button
         android:id="@+id/postUpdateButton"
         android:text="Post Update"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/statusInput"
         />
@@ -25,7 +26,7 @@
     <Button
         android:id="@+id/viewTimelineButton"
         android:text="View Timeline"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/postUpdateButton"
         />

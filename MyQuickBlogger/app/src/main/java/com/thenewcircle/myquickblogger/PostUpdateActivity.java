@@ -1,9 +1,11 @@
 package com.thenewcircle.myquickblogger;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -24,7 +26,7 @@ import android.widget.Toast;
 import com.marakana.android.yamba.clientlib.YambaClient;
 
 
-public class PostUpdateActivity extends Activity {
+public class PostUpdateActivity extends Activity implements View.OnClickListener {
 
     private BroadcastReceiver connectivityReceiver = new BroadcastReceiver() {
         @Override
@@ -59,14 +61,7 @@ public class PostUpdateActivity extends Activity {
 
         statusInput = (EditText) findViewById(R.id.statusInput);
 
-        viewTimelineButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("http://www.google.com"));
-                startActivity(intent);
-            }
-        });
+        viewTimelineButton.setOnClickListener(this);
 
         postUpdateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +71,25 @@ public class PostUpdateActivity extends Activity {
                 postUpdateTask.execute(textUserEntered);
             }
         });
+    }
+
+    @Override
+    public void onClick(final View view) {
+        final Intent intent = new Intent("com.thenewcircle.myquickblogger.VIEW_BLOG_TIMELINE");
+        startActivity(intent);
+    }
+
+    public void showRetryDialog() {
+        final AlertDialog dialog = new AlertDialog.Builder(this)
+                .setMessage("Error submitting post.")
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialogInterface, final int i) {
+                        updateBlog(statusInput.getText().toString());
+                    }
+                })
+                .show();
     }
 
     public void showUserTaskResult(final String result) {
