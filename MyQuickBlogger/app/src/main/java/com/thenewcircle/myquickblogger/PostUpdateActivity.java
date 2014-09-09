@@ -126,7 +126,7 @@ public class PostUpdateActivity extends Activity {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
 
-            final Intent intent = new Intent(this, ViewTimelineActivity.class);
+            final Intent intent = new Intent("com.thenewcircle.myquickblogger.VIEW_BLOG_TIMELINE");
             startActivity(intent);
 
             return true;
