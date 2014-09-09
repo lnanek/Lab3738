@@ -118,6 +118,8 @@ public class ViewTimelineActivity extends Activity {
 
     private ProgressDialog progressDialog;
 
+    private StatusDetailFragment fragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +127,9 @@ public class ViewTimelineActivity extends Activity {
         setContentView(R.layout.activity_view_timeline);
         timelineDisplay = (ListView) findViewById(R.id.timelineDisplay);
         getActionBar().setHomeButtonEnabled(true);
+
+        fragment = (StatusDetailFragment) getFragmentManager().findFragmentById(R.id.viewer);
+        Log.d("ViewTimelineActivity", "got fragment = " + fragment);
     }
 
     @Override
@@ -151,6 +156,11 @@ public class ViewTimelineActivity extends Activity {
     }
 
     private void showData(List<YambaClient.Status> items) {
+
+        if ( null != items && !items.isEmpty() ) {
+            fragment.showDetails(items.get(0));
+        }
+
         timelineDisplay.setAdapter(new StatusListAdapter(items));
     }
 
