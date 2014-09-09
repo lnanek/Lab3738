@@ -1,8 +1,13 @@
 package com.thenewcircle.myquickblogger;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -20,6 +25,19 @@ import com.marakana.android.yamba.clientlib.YambaClient;
 
 
 public class PostUpdateActivity extends Activity {
+
+    private BroadcastReceiver connectivityReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            final boolean disconnected = intent.getBooleanExtra(
+                    ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
+
+            Log.d("ConnectionReceiver", "onReceive received intent = " + intent
+                    + " disconnected = " + disconnected);
+
+            postUpdateButton.setEnabled(!disconnected);
+        }
+    };
 
     Handler handler = new Handler();
 
@@ -90,10 +108,29 @@ public class PostUpdateActivity extends Activity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        Toast.makeText(this, "I started", Toast.LENGTH_LONG).show();
-        Log.d("PostUpdateActivity", "I started");
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this, "I resumed", Toast.LENGTH_LONG).show();
+        Log.d("PostUpdateActivity", "I resumed");
+
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        postUpdateButton.setEnabled(isConnected);
+
+        final IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+
+        registerReceiver(connectivityReceiver, filter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(connectivityReceiver);
     }
 
     @Override

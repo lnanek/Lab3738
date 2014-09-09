@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="EclipseCodeFormatter">
+    <option name="defaultSettings" value="true" />
+    <option name="id" value="1377105132709" />
+    <option name="importOrderConfigFilePath" value="$USER_HOME$/Downloads/github.cerner.com/chad.importorder" />
+    <option name="importOrderFromFile" value="true" />
+    <option name="name" value="default" />
+    <option name="pathToConfigFileJava" value="$USER_HOME$/Downloads/github.cerner.com/android_eclipseplugin_v1.xml" />
+    <option name="selectedJavaProfile" value="Chad" />
+  </component>
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
   </component>
