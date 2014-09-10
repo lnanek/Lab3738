@@ -15,14 +15,26 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.Map;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.marakana.android.yamba.clientlib.YambaClient;
 
 
@@ -71,6 +83,50 @@ public class PostUpdateActivity extends Activity implements View.OnClickListener
                 postUpdateTask.execute(textUserEntered);
             }
         });
+
+
+        final TextView resultDisplay = (TextView)
+                findViewById(R.id.resultDisplay);
+
+        //Create your request queue once
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+
+        // Submit requests
+        String url ="http://yamba.marakana.com/api/statuses/friends_timeline.xml";
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        resultDisplay.setText("Response is: "+ response.substring(0,500));
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("PostUpdateActivity", "error getting page", error);
+                resultDisplay.setText("That didn't work!");
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                //return super.getHeaders();
+
+                HashMap<String, String> params = new HashMap<String, String>();
+                String creds = String.format("%s:%s","student","password");
+                String auth = "Basic " + Base64.encodeToString(creds.getBytes(), Base64.DEFAULT);
+                params.put("Authorization", auth);
+                return params;
+            }
+        };
+
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+
     }
 
     @Override

@@ -62,6 +62,7 @@
     <orderEntry type="jdk" jdkName="Android 4.1.2 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="yambaclientlib" level="project" />
+    <orderEntry type="library" exported="" name="volley-1.0" level="project" />
   </component>
 </module>
 

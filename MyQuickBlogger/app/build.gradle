@@ -19,7 +19,16 @@ android {
     }
 }
 
+repositories {
+    maven {
+        url 'https://github.com/Goddchen/mvn-repo/raw/master/'
+    }
+    mavenCentral()
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile files('libs/yambaclientlib.jar')
+
+    compile 'com.android:volley:1.+';
 }
